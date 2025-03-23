@@ -1,0 +1,32 @@
+""" Write a program that takes user input, analyzes the text, and identifies the most frequent word(s) along with their respective counts.
+
+
+
+The program shold remove the punctuation marks such as .,?!;:"() from the input text, then output the top N most frequent words and save the result to an output file called "output.txt".
+
+Input format :
+The input consists of string S, representing the text entered by the user. The text contains words separated by spaces and may contain punctuation marks.
+
+Output format :
+The output displays "'X' with a count of Y" where X is the most frequent word and Y is the count."""
+
+text = input()
+words = text.split()
+punctuation = '.,?!;:"()'
+cleaned_words = [word if word[-1] not in punctuation else word[:-1] for word in words]
+cleaned_words = [word if word[0] not in punctuation else word[1:] for word in cleaned_words]
+
+word_count = {}
+for word in cleaned_words:
+    word_count[word] = word_count.get(word, 0) + 1
+
+top_n = 1  
+
+sorted_word_count = sorted(word_count.items(), key=lambda x: x[1], reverse=True)
+most_common_words = sorted_word_count[:top_n]
+
+for word, count in most_common_words:
+    print(f"'{word}' with a count of {count}")
+with open("output.txt", "w") as output_file:
+    for word, count in most_common_words:
+        output_file.write(f"'{word}' with a count of {count}\n")
